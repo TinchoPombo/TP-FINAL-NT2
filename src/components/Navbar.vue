@@ -1,6 +1,7 @@
 <template>
 
   <section class="src-componentes-navbar">
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -22,7 +23,9 @@
           
         </ul>
       </div>
+
     </nav>
+
   </section>
 
 </template>
@@ -52,7 +55,5 @@
 </script>
 
 <style scoped lang="css">
-  .src-components-navbar {
-
-  }
+  
 </style>

@@ -61,29 +61,40 @@
         <!-- --------------------- -->
         <validate tag="div">
           <!-- Elemento de entrada -->
-          <label for="email">email</label>
+          <label for="mail">Mail</label>
           <input 
-            type="email"
-            id="email"
+            type="mail"
+            id="mail"
             name="email" 
             class="form-control"
             autocomplete="off"
-            v-model.trim="formData.email" 
+            v-model.trim="formData.mail" 
             required 
           />
 
           <!-- Mensajes de validación -->
-          <field-messages name="email" show="$dirty">
+          <field-messages name="mail" show="$dirty">
             <!-- <div class="alert alert-success mt-1">Success!</div> -->
             <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
-            <div slot="email" class="alert alert-danger mt-1">Email no válido</div>
+            <div slot="mail" class="alert alert-danger mt-1">Email no válido</div>
           </field-messages>
         </validate>
         <br>
 
+        <label v-show="enviado" :style="envioOk ? styleOk : styleError" >{{envioOk ? msgEnvioOk : msgEnvioError}}</label>
+        <br>
+
         <!-- Botón de envío -->
         <button class="btn btn-success my-4" :disabled="formState.$invalid">Enviar</button>
+
+        <router-link to="/agregar-evento">
+          <a class="nav-link" href="#">Volver a eventos</a>
+        </router-link>
+      
+      
       </vue-form>      
+
+      
 
     </div>
   </section>
@@ -96,30 +107,50 @@
     name: 'src-components-creacion-usuario',
     props: [],
     mounted () {
-
+      
     },
     data () {
       return {
         formState : {},
         formData : this.getInicialData(),
-        nombreMinLength : 3,
-        edadMin: 18,
-        edadMax: 120
+        nombreMinLength : 3,  
+        envioOk : false,
+        enviado: false,
+        msgEnvioOk : "Usuario creado correctamente!",
+        msgEnvioError : "Error al crear usuario",
+        styleOk : "color : green",
+        styleError : "color : red"
       }
     },
     methods: {
+      
       getInicialData() {
         return {
           nombre: '',
           telefono: '',
-          email: ''
+          mail: ''
         }
       },
       enviar() {
         console.log({ ...this.formData })
-
+        this.postUsuario({ ...this.formData })
         this.formData = this.getInicialData()
         this.formState._reset()
+      },
+      async postUsuario(formData){
+        let nuevoUsuario = {
+          nombre :         formData.nombre,
+          telefono :   formData.telefono,
+          mail :     formData.mail,
+          
+        };
+        try{
+          await this.axios.post(this.getUrl() + "usuarios", nuevoUsuario, {'content-type' : 'application/json'})
+          this.envioOk = true
+        }catch(error) {
+          console.error('Error en postUsuario()', error.message)
+         
+        }
       }
     },
     computed: {
@@ -131,7 +162,9 @@
 </script>
 
 <style scoped lang="css">
-  .src-components-creacion-usuario {
-
+  .jumbotron {
+    margin-left: 20%;
+    margin-top: 5%;
+    margin-right: 20%;
   }
 </style>

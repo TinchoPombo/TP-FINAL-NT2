@@ -1,17 +1,23 @@
 <template>
   <div id="app">
+
+    <header-comp/>
     <Navbar />
     <router-view />
+
+    
   </div>
 </template>
 
 <script>
 import Navbar from './components/Navbar.vue'
+import HeaderComp  from './components/HeaderComp.vue'
 
 export default {
   name: 'App',
   components: {
-    Navbar
+    Navbar,
+    HeaderComp
   }
 }
 </script>
