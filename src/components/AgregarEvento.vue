@@ -50,21 +50,23 @@
         </validate>
       
         <br>
+        
+        
+          <label for="usuario">Usuario</label>
+          <select class="custom-select" v-model="formData.idUsuario">
+            <option disabled value="">Seleccione usuario</option>
+            <option v-for="(usuario, index) in usuarios" :key="index" :value="usuario.id">{{ usuario.nombre }}</option>
+          </select>
 
-        <label for="usuario">Usuario</label>
-        <select class="custom-select" v-model="formData.idUsuario">
-          <option disabled value="">Seleccione usuario</option>
-          <option v-for="(usuario, index) in usuarios" :key="index" :value="usuario.id">{{ usuario.nombre }}</option>
-        </select>
+        
+
         <router-link to="/creacion-usuario">
           <a href="#">Crear nuevo usuario</a>
         </router-link>
 
-
         <br>
         <br>
 
-   
         <label for="TipoEvento">Evento</label>
         <select class="custom-select" v-model="formData.idTipoEvento">
           <option disabled value="">Seleccione un evento</option>
@@ -72,8 +74,9 @@
         </select>
 
         <br>
+      
         <!-- Botón de envío -->
-        <button class="btn btn-success my-4" :disabled="formState.$invalid">Enviar</button>
+        <button class="btn btn-success my-4" :disabled="formState.$invalid || !formData.idTipoEvento ">Enviar</button>
       </vue-form>      
 
       <div v-if="ultimosEventos.length != 0">

@@ -19,6 +19,7 @@
             <td> {{returnTipoEve(evento.idTipoEvento)}} </td>
             <td>{{evento.descripcion}}</td>
             <td> {{returnUser(evento.idUsuario)}} </td>
+            <td> <button type="button" class="btn btn-info" @click="verDetalles(evento.id, returnTipoEve(evento.idTipoEvento), returnUser(evento.idUsuario))">Detalles</button> </td>
           </tr>
         </tbody>
       </table>
@@ -109,6 +110,12 @@
           }
         }
         return nmb
+      },
+      verDetalles(idEvento, tipoEvento, usuario){
+        console.log(idEvento);
+        this.$router.push({
+          path : '/detalles-eventos/' + idEvento + '/' + tipoEvento + '/' + usuario
+        })
       }
 
       
