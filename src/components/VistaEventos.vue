@@ -16,7 +16,7 @@
         <tbody>
           <tr v-for="(evento, index) in eventos" :key="index">
             <th scope="row">{{evento.fecha}}</th>
-            <td> {{}} </td>
+            <td> {{returnTipoEve(evento.idTipoEvento)}} </td>
             <td>{{evento.descripcion}}</td>
             <td> {{returnUser(evento.idUsuario)}} </td>
           </tr>
@@ -37,13 +37,16 @@
   export default  {
     name: 'src-components-vista-eventos',
     props: [],
+    beforeMount(){
+      this.getEventos()
+      this.getTipos()
+      this.getUsuarios()
+    },
     created (){
       this.getTipos()
     },
     mounted () {
-     this.getEventos()
-     this.getTipos()
-     this.getUsuarios()
+     
     },
     data () {
       return {
@@ -74,11 +77,38 @@
         this.getEventos(),
         this.getTipos()
       },
+
       returnUser(id){
-        
         let { ...list} = this.$store.getters.usuarios;
-        console.log(list);
-        return list[id-1]
+        let i = 0
+        let encontre = false
+        let nmb = ''
+
+        while(!encontre){
+          if(list[i].id == id){
+            encontre = true
+            nmb = list[i].nombre
+          }else{
+            i++
+          }
+        }
+        return nmb
+      },
+      returnTipoEve(id){
+        let { ...list} = this.$store.getters.tipos;
+        let i = 0
+        let encontre = false
+        let nmb = ''
+
+        while(!encontre){
+          if(list[i].id == id){
+            encontre = true
+            nmb = list[i].descripcion
+          }else{
+            i++
+          }
+        }
+        return nmb
       }
 
       
