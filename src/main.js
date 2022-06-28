@@ -16,6 +16,8 @@ import store from './store'
 
 import './globalMixins'
 
+import './globalFilter'
+
 Vue.config.productionTip = false
 
 new Vue({

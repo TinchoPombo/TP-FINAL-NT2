@@ -8,10 +8,7 @@ const globalMixin = {
         }
     },
     computed : {
-        /* mostrarEventos(){
-            let eventos = this.$store.state.eventos
-            return eventos
-        } */
+        
     }
 }
 

@@ -76,18 +76,18 @@
         <br>
       
         <!-- Botón de envío -->
-        <button class="btn btn-success my-4" :disabled="formState.$invalid || !formData.idTipoEvento ">Enviar</button>
+        <button class="btn btn-success my-4" :disabled="formState.$invalid || !formData.idUsuario || !formData.idTipoEvento ">Enviar</button>
       </vue-form>      
 
       <div v-if="ultimosEventos.length != 0">
-        <label>Ultimo evento agregado</label>
-        <div class="row row-cols-1 row-cols-md-2 g-4">
-          <div class="col">
-            <div class="card-group" display: flex  v-for="(evento, index) in ultimosEventos" :key="index" >
-              <div class="card bg-light mb-3" style="max-width: 18rem;">
+        <label>Ultimos eventos agregado</label>
+        
+          
+            <div class="card-group center" >
+              <div display: flex  v-for="(evento, index) in ultimosEventos" :key="index"  class="card bg-light mb-3" style="max-width: 18rem;">
                 <div class="card-header"> {{  eventos[evento.idTipoEvento - 1].descripcion}} </div>
                 <div class="card-body">
-                  <h5 class="card-title">{{evento.fecha}}</h5>
+                  <h5 class="card-title">{{evento.fecha | formatearFecha}}</h5>
                   <p class="card-text"> {{evento.descripcion}} </p>
                 </div>
                 <div class="card-footer">
@@ -95,8 +95,8 @@
               </div>
               </div>
             </div>
-          </div>
-        </div>
+          
+        
       </div>
 
     </div>

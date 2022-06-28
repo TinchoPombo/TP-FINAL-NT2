@@ -12,6 +12,14 @@ export default new Vuex.Store({
         log : "",
         usuarios : [],
         eventos : [],
+        evento : '',
+        FormData:{
+            fecha: '',
+            descripcion: '',
+            idUsuario: '',
+            idTipoEvento: '',
+        }
+
     },
     actions : {
         setTipoEventos({commit}, tiposEventos){
@@ -26,7 +34,10 @@ export default new Vuex.Store({
         },
         logear({commit}, stringg){
             commit('logear', stringg)
-          }
+        },
+        guardarEventoDetalle({commit}, evento){
+            commit('guardarEventoDetalle', evento)
+        }
     },
     mutations : {
         setearTipoEventos(state, tipoEventos){ 
@@ -42,6 +53,15 @@ export default new Vuex.Store({
         logear(state, text){
             state.log = text;
             console.log(state.log);
+        },
+        guardarEventoDetalle(state, evento){
+            state.evento = evento
+            state.FormData = {
+                fecha: state.evento.fecha,
+                descripcion: state.evento.descripcion,
+                idUsuario: state.evento.idUsuario,
+                idTipoEvento: state.evento.idTipoEvento,
+            }
         }
     },
     getters: {

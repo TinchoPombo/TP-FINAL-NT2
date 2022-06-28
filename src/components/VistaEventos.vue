@@ -4,22 +4,26 @@
     
     <div class="jumbotron">
 
-      <table class="table" @>
+      <table class="table">
         <thead>
           <tr>
             <th scope="col">Fecha</th>
             <th scope="col">Evento</th>
             <th scope="col">Descripcion</th>
             <th scope="col">Usuario</th>
+            <th scope="col">Opciones</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(evento, index) in eventos" :key="index">
-            <th scope="row">{{evento.fecha}}</th>
+            <th scope="row">{{evento.fecha | formatearFecha}}</th>
             <td> {{returnTipoEve(evento.idTipoEvento)}} </td>
             <td>{{evento.descripcion}}</td>
             <td> {{returnUser(evento.idUsuario)}} </td>
-            <td> <button type="button" class="btn btn-info" @click="verDetalles(evento.id, returnTipoEve(evento.idTipoEvento), returnUser(evento.idUsuario))">Detalles</button> </td>
+            <td>
+                <button type="button" class="btn btn-info mr-2" @click="verDetalles(evento.id, returnTipoEve(evento.idTipoEvento), returnUser(evento.idUsuario))">Detalles</button>
+                <button type="button" class="btn btn-danger" @click="borrar(evento.id)">Borrar</button>           
+            </td>
           </tr>
         </tbody>
       </table>
@@ -111,11 +115,24 @@
         }
         return nmb
       },
-      verDetalles(idEvento, tipoEvento, usuario){
+      async verDetalles(idEvento, tipoEvento, usuario){
         console.log(idEvento);
+
+        let {data : evento} = await this.axios(this.getUrl() + 'eventos/' + idEvento)
+        this.$store.dispatch('guardarEventoDetalle',evento)
+
         this.$router.push({
           path : '/detalles-eventos/' + idEvento + '/' + tipoEvento + '/' + usuario
         })
+      },
+      async borrar(id){
+        await this.axios.delete(this.getUrl() + "eventos/" + id)
+        this.actualizar()
+      },
+      actualizar(){
+        this.getEventos()
+        this.getTipos()
+        this.getUsuarios()
       }
 
       

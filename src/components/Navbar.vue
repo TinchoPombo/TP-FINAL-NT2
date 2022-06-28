@@ -20,6 +20,13 @@
               <a class="nav-link" href="#">Agregar Evento</a>
             </router-link>
           </li>
+
+          <!-- VistaEventos-->
+          <li class="nav-item">
+            <router-link to="/vista-eventos">
+              <a class="nav-link" href="#">Lista de Eventos</a>
+            </router-link>
+          </li>
           
         </ul>
       </div>

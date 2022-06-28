@@ -17,9 +17,9 @@
         </thead>
         <tbody>
           <tr>
-            <th> {{evento.fecha}} </th>
+            <th> {{$store.state.FormData.fecha}} </th>
             <td> {{tipoEvento}} </td>
-            <td> {{evento.descripcion}} </td>
+            <td> {{$store.state.FormData.descripcion}} </td>
             <td> {{usuario}} </td>
           </tr>
         </tbody>
@@ -36,9 +36,8 @@
             name="fecha" 
             class="form-control text-center"
             autocomplete="off"
-            v-model="formData.fecha" 
+            v-model="$store.state.FormData.fecha"
             required 
-            
             no-espacios
             
           />
@@ -54,16 +53,15 @@
 
         <!--      DESCRIPCION       -->
         <validate tag="div">
-          <label for="descripcion">descripcion</label>
+          <label for="descripcion">Descripcion</label>
           <input 
             type="text"
             id="descripcion"
             name="descripcion" 
             class="form-control"
             autocomplete="off"
-            v-model.number="formData.descripcion" 
+            v-model="$store.state.FormData.descripcion" 
             required
-            :placeholder=" evento.descripcion "
             :maxlength="maxDescripcion"
           />
 
@@ -79,40 +77,33 @@
         
         
           <label for="usuario">Usuario</label>
-          <select class="custom-select" v-model="formData.idUsuario">
+          <select class="custom-select" v-model="$store.state.FormData.idUsuario">
             <option disabled value="">Seleccione usuario</option>
-            <option v-for="(usuario, index) in usuarios" :key="index" :value="usuario.id">{{ usuario.nombre }}</option>
+            <option v-for="(usuario, index) in $store.state.usuarios" :key="index" :value="usuario.id">{{ usuario.nombre }}</option>
           </select>
 
-        
-
-        <router-link to="/creacion-usuario">
-          <a href="#">Crear nuevo usuario</a>
-        </router-link>
 
         <br>
         <br>
 
         <label for="TipoEvento">Evento</label>
-        <select class="custom-select" v-model="formData.idTipoEvento">
+        <select class="custom-select" v-model="$store.state.FormData.idTipoEvento">
           <option disabled value="">Seleccione un evento</option>
-          <option v-for="(TipoEve, index) in eventos" :key="index" :value="TipoEve.id">{{ TipoEve.descripcion }}</option>
+          <option v-for="(TipoEve, index) in $store.state.tipos" :key="index" :value="TipoEve.id">{{ TipoEve.descripcion }}</option>
         </select>
 
         <br>
       
         <!-- Botón de envío -->
-        <button class="btn btn-success my-4" :disabled="formState.$invalid || !formData.idTipoEvento ">Enviar</button>
+        <button class="btn btn-success my-4" :disabled="formState.$invalid">Enviar</button>
+
+      
+
       </vue-form>      
 
       
 
     </div>
-
-      <button type="button" class="btn btn-success">Editar</button>
-      <button type="button" class="btn btn-danger">Borrar</button>
-
-    
 
   </section>
 
@@ -124,35 +115,36 @@
     name: 'src-components-detalles-eventos',
     props: ['id', 'tipoEvento', 'usuario'],
     beforeMount () {
-       this.getEventos()
+       /* this.getEventos() */
     },
     mounted (){
-      this.getEvento(this.id)
+     /*  this.getEvento(this.id) */
     },
     data () {
       return {
         eventos : [],
         evento : "",
         formState : {},
-        formData : this.getInicialData(),
+        /* formData : this.getInicialData(), */
+        myDate : new Date().toISOString().slice(0,10),
+        maxDescripcion : 200
       }
     },
     methods: {
-      getEventos(){
+      /* getEventos(){
         this.eventos = this.$store.getters.eventos
       },
       async getEvento(){
         let {data : evento} = await this.axios(this.getUrl() + 'eventos/' + this.id)
         this.evento = evento
-      },
-      getInicialData() {
-        return {
-          fecha: '',
-          descripcion: '',
-          idUsuario: '',
-          idTipoEvento: '',
-        }
-      },
+      }, */
+      
+      async enviar(){
+        await this.axios.put(this.getUrl() + "eventos/" + this.id, this.$store.state.FormData )
+        this.$router.push({
+          path : '/vista-eventos'
+        })
+      }
       
       
     },
