@@ -63,9 +63,9 @@
           <!-- Elemento de entrada -->
           <label for="mail">Mail</label>
           <input 
-            type="mail"
+            type="email"
             id="mail"
-            name="email" 
+            name="mail" 
             class="form-control"
             autocomplete="off"
             v-model.trim="formData.mail" 
@@ -76,7 +76,7 @@
           <field-messages name="mail" show="$dirty">
             <!-- <div class="alert alert-success mt-1">Success!</div> -->
             <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
-            <div slot="mail" class="alert alert-danger mt-1">Email no válido</div>
+            <div slot="email" class="alert alert-danger mt-1">Email no válido</div>
           </field-messages>
         </validate>
         <br>
@@ -136,7 +136,9 @@
         this.postUsuario({ ...this.formData })
         this.formData = this.getInicialData()
         this.formState._reset()
+        
       },
+
       async postUsuario(formData){
         let nuevoUsuario = {
           nombre :         formData.nombre,
@@ -151,6 +153,7 @@
           console.error('Error en postUsuario()', error.message)
          
         }
+        this.enviado = true
       }
     },
     computed: {
